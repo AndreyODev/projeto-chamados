@@ -32,6 +32,8 @@ Como evolução futura, poderá ser adicionado um **Serviço de Notificações**
 
 O diagrama arquitetural completo está disponível em [docs/diagrama-arquitetura.md](docs/diagrama-arquitetura.md).
 
+E o planejamento está disponível em [docs/planejamento-semana-1.md](docs/planejamento-semana-1.md).
+
 ## Estrutura do projeto
 
 ```text
