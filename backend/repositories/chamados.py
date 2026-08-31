@@ -2,3 +2,7 @@
 # A persistência definitiva será implementada em uma etapa posterior.
 
 chamados = []
+
+def salvar_chamado(chamado):
+    chamados.append(chamado)
+    return chamado
