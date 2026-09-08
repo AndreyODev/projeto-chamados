@@ -2,9 +2,9 @@
 
 Sistema web de gestão de chamados para uma empresa de suporte técnico.
 
-## Objetivo
+## Objetivos
 
-Planejar uma aplicação web capaz de centralizar o registro, acompanhamento, atualização e encerramento de chamados de suporte, substituindo o controle realizado por planilhas e mensagens dispersas.
+Planejar uma Aplicação web capaz de centralizar o registro, acompanhamento, atualização e encerramento de chamados de suporte, substituindo o controle realizado por planilhas e mensagens dispersas.
 
 ## Escopo inicial
 
