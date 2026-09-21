@@ -1,23 +1,25 @@
-from repositories.chamados import chamados, salvar_chamado
+from repositories.chamados import buscar_chamado, listar_chamados as buscar_chamados
+from repositories.chamados import salvar_chamado
 from schemas.chamados import ChamadoRequest
-from exceptions.exceptions import InternalServerError
+
 
 def listar_chamados() -> dict:
+    chamados = buscar_chamados()
     return {
         "chamados": chamados,
-        "tamanho": len(chamados)
+        "tamanho": len(chamados),
     }
 
-def criar_chamado(dados: ChamadoRequest) -> dict:
-    try:
-        chamado = {
-            "id": str(len(chamados) + 1),
+
+def obter_chamado(chamado_id: int):
+    return buscar_chamado(chamado_id)
+
+
+def criar_chamado(dados: ChamadoRequest):
+    return salvar_chamado(
+        {
             "titulo": dados.titulo,
             "descricao": dados.descricao,
             "prioridade": dados.prioridade,
         }
-        return salvar_chamado(chamado)
-    except Exception as e:
-        print("error", e)
-        raise InternalServerError()
-    
+    )
