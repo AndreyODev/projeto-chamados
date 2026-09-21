@@ -11,3 +11,8 @@ class ChamadoResponse(BaseModel):
     titulo: str
     descricao: str
     prioridade: Literal["baixa", "media", "alta"]
+
+
+class ListChamadosResponse(BaseModel):
+    chamados: list[ChamadoResponse]
+    tamanho: int

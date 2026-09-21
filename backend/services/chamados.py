@@ -3,8 +3,12 @@ from repositories.chamados import salvar_chamado
 from schemas.chamados import ChamadoRequest
 
 
-def listar_chamados():
-    return buscar_chamados()
+def listar_chamados() -> dict:
+    chamados = buscar_chamados()
+    return {
+        "chamados": chamados,
+        "tamanho": len(chamados),
+    }
 
 
 def obter_chamado(chamado_id: int):
@@ -16,5 +20,6 @@ def criar_chamado(dados: ChamadoRequest):
         {
             "titulo": dados.titulo,
             "descricao": dados.descricao,
+            "prioridade": dados.prioridade,
         }
     )

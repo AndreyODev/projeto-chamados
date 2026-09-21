@@ -3,15 +3,15 @@ from database import obter_conexao
 
 def salvar_chamado(chamado):
     query = """
-        INSERT INTO chamados (titulo, descricao)
-        VALUES (%s, %s)
-        RETURNING id, titulo, descricao, status, criado_em
+        INSERT INTO chamados (titulo, descricao, prioridade)
+        VALUES (%s, %s, %s)
+        RETURNING id, titulo, descricao, prioridade, status, criado_em
     """
 
     with obter_conexao() as conexao:
         resultado = conexao.execute(
             query,
-            (chamado["titulo"], chamado["descricao"]),
+            (chamado["titulo"], chamado["descricao"], chamado["prioridade"]),
         ).fetchone()
 
     return dict(resultado)
@@ -19,7 +19,7 @@ def salvar_chamado(chamado):
 
 def listar_chamados():
     query = """
-        SELECT id, titulo, descricao, status, criado_em
+        SELECT id, titulo, descricao, prioridade, status, criado_em
         FROM chamados
         ORDER BY id
     """
@@ -32,7 +32,7 @@ def listar_chamados():
 
 def buscar_chamado(chamado_id):
     query = """
-        SELECT id, titulo, descricao, status, criado_em
+        SELECT id, titulo, descricao, prioridade, status, criado_em
         FROM chamados
         WHERE id = %s
     """
