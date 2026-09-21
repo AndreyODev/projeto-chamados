@@ -6,7 +6,5 @@ def obter_chamados():
 
 def cadastrar_chamado(dados: ChamadoRequest):
     return criar_chamado(dados)
-
-
 def consultar_chamado(chamado_id: int):
     return obter_chamado(chamado_id)

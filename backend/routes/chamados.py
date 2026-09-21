@@ -11,8 +11,6 @@ def listar_chamados():
 @router.post("/chamados", status_code=status.HTTP_201_CREATED, response_model=ChamadoResponse)
 def criar_chamado(dados: ChamadoRequest):
     return cadastrar_chamado(dados)
-
-
 @router.get("/chamados/{chamado_id}")
 def consultar_por_id(chamado_id: int):
     chamado = consultar_chamado(chamado_id)
