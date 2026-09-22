@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routes.chamados import router as chamados_router
+from backend.routes.chamados import router as chamados_router
 
 app = FastAPI(
     title="API de Chamados",

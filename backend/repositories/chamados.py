@@ -1,6 +1,5 @@
 from database import obter_conexao
 
-
 def salvar_chamado(chamado):
     query = """
         INSERT INTO chamados (titulo, descricao, prioridade, status)
@@ -21,7 +20,6 @@ def salvar_chamado(chamado):
 
     return dict(resultado)
 
-
 def listar_chamados():
     query = """
         SELECT id, titulo, descricao, prioridade, status, criado_em
@@ -33,7 +31,6 @@ def listar_chamados():
         resultados = conexao.execute(query).fetchall()
 
     return [dict(resultado) for resultado in resultados]
-
 
 def buscar_chamado(chamado_id):
     query = """
