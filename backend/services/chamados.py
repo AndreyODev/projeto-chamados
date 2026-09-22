@@ -21,5 +21,6 @@ def criar_chamado(dados: ChamadoRequest):
             "titulo": dados.titulo,
             "descricao": dados.descricao,
             "prioridade": dados.prioridade,
+            "status": dados.status,
         }
     )
