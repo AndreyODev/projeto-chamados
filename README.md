@@ -50,8 +50,21 @@ projeto-chamados/
 ├── docs/
 │   ├── planejamento-semana-1.md
 │   └── diagrama-arquitetura.md
+├── database/
+│   ├── __init__.py
+│   └── connection.py
+├── migrations/
+│   └── 001_criar_tabela_chamados.sql
+├── scripts/
+│   └── 001_criar_tabela_chamados.sql
 ├── frontend/
 ├── backend/
-├── database/
 └── prints/
 ```
+
+O database local utilizado pela aplicação se chama `chamados`. A conexão é
+configurada pelo arquivo `.env`, que não deve ser versionado.
+
+- `database/`: conexão e configuração do acesso ao PostgreSQL.
+- `migrations/`: estrutura versionada das entidades persistidas.
+- `scripts/`: scripts auxiliares para executar migrations.
