@@ -12,7 +12,11 @@ def listar_chamados():
 def criar_chamado(dados: ChamadoRequest):
     return cadastrar_chamado(dados)
 
-@router.get("/chamados/{chamado_id}")
+@router.get(
+    "/chamados/{chamado_id}",
+    status_code=status.HTTP_200_OK,
+    response_model=ChamadoResponse,
+)
 def consultar_por_id(chamado_id: int):
     chamado = consultar_chamado(chamado_id)
     if chamado is None:
