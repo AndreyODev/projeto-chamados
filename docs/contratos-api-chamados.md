@@ -111,66 +111,78 @@ Não é permitido pular etapas da sequência normal.
 
 ---
 
-## 5. Escopo da implementação da Etapa 3
+## 5. Escopo atual da implementação
 
-A Etapa 3 possui como objetivo implementar uma versão inicial da API antes da utilização de banco de dados.
-
-Nesta etapa serão implementados somente:
+A implementação atual já inclui persistência em banco de dados e atende os seguintes cenários:
 
 - `GET /chamados`
+- `GET /chamados/{id}`
 - `POST /chamados`
 
-Os dados serão mantidos temporariamente em memória, utilizando uma coleção da própria aplicação.
+A persistência é feita em PostgreSQL por meio do repository, sem depender de coleção em memória para consulta e criação de registros.
 
-### 5.1 Dados utilizados na criação na Etapa 3
+### 5.1 Dados aceitos na criação
 
-O `POST /chamados` da Etapa 3 receberá somente:
+O `POST /chamados` recebe os campos:
 
 - `titulo`;
 - `descricao`;
-- `prioridade`.
+- `prioridade`;
+- `status` (opcional, com default `aberto`).
 
-O campo `cliente_id` permanece no modelo geral do recurso, porém **não será obrigatório nem utilizado no cadastro da Etapa 3**.
+O campo `status` é validado pela tabela e pelo schema do FastAPI com os valores permitidos:
 
-Essa decisão foi tomada porque o laboratório da Etapa 3 não inclui autenticação ou identificação da pessoa cliente e apresenta o corpo do cadastro somente com `titulo`, `descricao` e `prioridade`.
+- `aberto`;
+- `em_andamento`;
+- `fechado`.
 
-### 5.2 Identificador temporário
+### 5.2 Modelo persistente
 
-Durante a Etapa 3, o identificador do chamado será gerado de forma simples pela aplicação.
+A tabela `chamados` foi modelada para persistir os dados principais do recurso e gerar `id` e `criado_em` automaticamente pelo banco.
 
-O identificador é temporário e poderá ser substituído posteriormente por uma estratégia adequada de persistência quando o banco de dados for implementado.
+### 5.3 Validações da implementação atual
 
-### 5.3 Dados fora da implementação da Etapa 3
-
-Os seguintes campos continuam fazendo parte do modelo geral do recurso, mas não serão implementados nesta etapa:
-
-- `status`;
-- `cliente_id`;
-- `data_abertura`;
-- `atendente_ultima_atualizacao_id`.
-
-A implementação desses campos será definida nas etapas posteriores do projeto.
-
-### 5.4 Validações da Etapa 3
-
-O back-end deverá validar:
+O back-end valida:
 
 - presença de `titulo`;
 - presença de `descricao`;
 - presença de `prioridade`;
-- validade do valor informado em `prioridade`.
+- validade dos valores de `prioridade` e `status`;
+- existência do identificador consultado.
 
-As prioridades permitidas são:
-
-- `baixa`;
-- `media`;
-- `alta`.
-
-Dados inválidos deverão resultar em:
+Valores inválidos resultam em:
 
 **HTTP 400 Bad Request**
 
-com resposta no formato padronizado de erro definido neste contrato.
+com resposta no formato padronizado:
+
+```json
+{
+  "erro": "Dado inválido",
+  "detalhes": [
+    {
+      "campo": "titulo",
+      "mensagem": "O título é obrigatório."
+    }
+  ]
+}
+```
+
+Quando o id não existe, o endpoint responde:
+
+**HTTP 404 Not Found**
+
+```json
+{
+  "erro": "Recurso não encontrado",
+  "detalhes": [
+    {
+      "campo": "id",
+      "mensagem": "Não existe chamado com o id informado."
+    }
+  ]
+}
+```
 
 ---
 
@@ -184,16 +196,17 @@ com resposta no formato padronizado de erro definido neste contrato.
 | `PATCH`  | `/chamados/{id}` | Atualiza parcialmente um chamado | `id` na URI e corpo JSON | `200`, `400`, `404` |
 | `DELETE` | `/chamados/{id}` | Remove um chamado                | `id` na URI              | `204`, `404`        |
 
-### 6.1 Endpoints implementados na Etapa 3
+### 6.1 Endpoints implementados na versão atual
 
-Nesta etapa, somente os seguintes endpoints serão implementados:
+A implementação atual inclui os seguintes endpoints:
 
 ```text
 GET /chamados
+GET /chamados/{id}
 POST /chamados
 ```
 
-Os demais endpoints permanecem definidos no contrato geral para orientar a evolução futura da API.
+Os demais endpoints continuam previstos no contrato geral como evolução futura da API.
 
 ---
 
@@ -223,25 +236,31 @@ GET /chamados
 
 **HTTP 200 OK**
 
-A resposta deve ser sempre uma lista JSON, inclusive quando não houver chamados cadastrados.
-
-Exemplo com chamados:
+A resposta atual é um objeto JSON com a lista de chamados e o tamanho da coleção:
 
 ```json
-[
-  {
-    "id": "1",
-    "titulo": "Não consigo acessar o sistema",
-    "descricao": "A tela de autenticação informa que minhas credenciais são inválidas.",
-    "prioridade": "alta"
-  }
-]
+{
+  "chamados": [
+    {
+      "id": 1,
+      "titulo": "Não consigo acessar o sistema",
+      "descricao": "A tela de autenticação informa que minhas credenciais são inválidas.",
+      "prioridade": "alta",
+      "status": "aberto",
+      "criado_em": "2026-09-23T09:47:50.542879"
+    }
+  ],
+  "tamanho": 1
+}
 ```
 
-Exemplo sem chamados:
+Quando não houver chamados, o retorno é:
 
 ```json
-[]
+{
+  "chamados": [],
+  "tamanho": 0
+}
 ```
 
 ---
