@@ -50,7 +50,7 @@ Resultado: `200 OK`, com o chamado de id `3` ainda presente na colecao.
 
 Requisicao: `POST /chamados`, sem o campo `titulo`.
 
-Resultado: `422 Unprocessable Entity`, com detalhe de campo obrigatorio ausente.
+Resultado: `400 Bad Request`, com detalhe padronizado de campo obrigatorio ausente.
 
 ### Identificador inexistente
 

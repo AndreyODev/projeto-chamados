@@ -167,8 +167,9 @@ parâmetros separados dos valores, incluindo a consulta por identificador, para
 evitar interpolação de entrada do usuário.
 
 Os schemas do FastAPI validam os campos obrigatórios e os valores permitidos.
-Por isso, uma criação sem `titulo` retorna `422 Unprocessable Entity`. Quando o
-repository não encontra o id solicitado, a rota retorna `404 Not Found`.
+Por isso, uma criação sem `titulo` retorna `400 Bad Request` no formato
+padronizado de erro. Quando o repository não encontra o id solicitado, a rota
+retorna `404 Not Found` no mesmo envelope de erro.
 
 Os fluxos de criação, listagem, consulta por id, reinício da aplicação, erro de
 validação, id inexistente e consulta direta no PostgreSQL foram validados. Os
